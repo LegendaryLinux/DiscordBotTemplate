@@ -6,6 +6,16 @@ I am often requested to make Discord bots for people, and got tired of building 
 repository contains a set of files which are a good starting point for implementing features. It may also function
 as a learning resource for those interested in creating their first bot.
 
+## Pre-Packaged Functionality
+This template bot comes with a few handy features:
+- `!help` command which sends a DM to a user describing the available commands. This command takes into account
+the permissions required to use each command, and only informs users of commands they are authorized to use.
+- Command Categories make it easy to define commands for your bot, and they provide permission levels in case you
+need to restrict certain commands to moderators or administrators.
+- The bot will automatically create a `Moderator` role in any server it joins if the role is not already present.
+This role is configurable in the `config.json` file, and is required for the command permission system to
+function properly.
+
 ## Repository Contents
 
 ### Root-level files
