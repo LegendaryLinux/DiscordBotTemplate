@@ -35,10 +35,11 @@ as a learning resource for those interested in creating their first bot.
 application.
 2. Click the "Bot" button on the sidebar.
 3. Click the "Add Bot" button and confirm the dialog.
-4. Note the `Token`.
-5. Access the [Permissions Calculator](https://discordapi.com/permissions.html) and determine what permissions your
-bot will need, then copy the URL at the bottom of the page.
-6. Navigate to the link in your URL, and grant the bot access to your server.
+4. Note your bot's `Token`.
+5. Click the "OAuth2" button on the sidebar and note your `Client ID`.
+6. Access the [Permissions Calculator](https://discordapi.com/permissions.html) and determine what permissions your
+bot will need, then copy the URL at the bottom of the page. You will also need to enter your bot's Client ID here.
+7. Navigate to the link in your URL, and grant the bot access to your server.
 
 ### Run the Bot
 1. Run the following commands in a terminal
@@ -49,11 +50,10 @@ npm install
 ```
 2. Create a new file called `config.json` and place it in the root directory of the project, then copy the contents of
 `config.example.json` into it.
-3. Put the token you noted above into `config.json` where specified.
+3. Put the client ID and token you noted above into `config.json` where specified.
 4. Back in your terminal, run
 ```shell
 npm run dev
 ```
 5. Observe the bot has come online in your Discord server.
 6. Type `!hello` to have the bot reply to you.
-

@@ -1,6 +1,6 @@
 const { Discord, Role } = require('discord.js');
 const { generalErrorHandler } = require('./errorHandlers');
-const config = require('config.json');
+const config = require('./config.json');
 
 module.exports = {
   /**

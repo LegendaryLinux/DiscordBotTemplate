@@ -1,4 +1,5 @@
 {
+  "clientId": "your-client-id-here",
   "token": "your-secret-token-here",
   "botName": "Discord Template Bot",
   "commandPrefix": "!",
