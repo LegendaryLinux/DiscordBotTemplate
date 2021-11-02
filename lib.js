@@ -1,5 +1,8 @@
 const { Discord, Role } = require('discord.js');
 const { generalErrorHandler } = require('./errorHandlers');
+const {REST} = require("@discordjs/rest");
+const {Routes} = require("discord-api-types/v9");
+const fs = require("fs");
 const config = require('./config.json');
 
 module.exports = {
@@ -116,5 +119,41 @@ module.exports = {
     if (thisArg) {arguments.push(thisArg) }
 
     return arguments;
+  },
+
+  registerGuildSlashCommands: async (client) => {
+    // Register guild-specific slash commands
+    const rest = new REST({ version: 9 }).setToken(config.token);
+    const slashCommandFiles = fs.readdirSync('./slashCommands/guild').filter((file) => file.endsWith('.js'));
+    for (let commandFile of slashCommandFiles) {
+      // Load command file into memory
+      const command = require(`./slashCommands/guild/${commandFile}`);
+
+      // Register the slash command with the Discord API
+      for (let guild of command.guilds) {
+        await rest.put(Routes.applicationGuildCommands(config.clientId, guild),
+          { body: [command.data.toJSON()] });
+      }
+
+      // Set client to respond to slash commands
+      await client.commands.set(command.name, command);
+    }
+  },
+
+  registerGlobalSlashCommands: async (client) => {
+    // Register global slash commands
+    const rest = new REST({ version: 9 }).setToken(config.token);
+    const slashCommands = [];
+    const slashCommandFiles = fs.readdirSync('./slashCommands/global').filter((file) => file.endsWith('.js'));
+    slashCommandFiles.forEach((commandFile) => {
+      const command = require(`./slashCommands/global/${commandFile}`)
+      slashCommands.push(command.data.toJSON());
+
+      // Set client to respond to slash commands
+      client.commands.set(command.name, command);
+    });
+    try{
+      await rest.put(Routes.applicationCommands(config.clientId), { body: slashCommands });
+    } catch(error) { console.error(error); }
   },
 };

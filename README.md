@@ -12,6 +12,7 @@ This template bot comes with a few handy features:
 the permissions required to use each command, and only informs users of commands they are authorized to use.
 - Command Categories make it easy to define commands for your bot, and they provide permission levels in case you
 need to restrict certain commands to moderators or administrators.
+- Automatic registration of slash commands
 - The bot will automatically create a `Moderator` role in any server it joins if the role is not already present.
 This role is configurable in the `config.json` file, and is required for the command permission system to
 function properly.
@@ -33,6 +34,9 @@ function properly.
 - `commandCategories` - Contains files which define commands your users may be granted access to
 - `cron` - Contains files which should be run regularly as cron jobs. These are not loaded by the bot directly
 - `scripts` - Contains files which should be run standalone to perform bot maintenance
+- `slashCommands` - Contains two directories:
+  - `global` - Defines slash commands available to all guilds
+  - `guild` - Defines slash commands specific to a subset of guilds your bot has joined
 
 ## Create and Run the Bot
 
@@ -48,8 +52,13 @@ application.
 4. Note your bot's `Token`.
 5. Click the "OAuth2" button on the sidebar and note your `Client ID`.
 6. Access the [Permissions Calculator](https://discordapi.com/permissions.html) and determine what permissions your
-bot will need, then copy the URL at the bottom of the page. You will also need to enter your bot's Client ID here.
-7. Navigate to the link in your URL, and grant the bot access to your server.
+bot will need, then copy the URL at the bottom of the page. You will need to enter your bot's Client ID here, as well
+as setting the scope to `applications.commands`.
+By default, this bot will require the following permissions:
+   - Read Messages
+   - Send Messages
+   - View Channel
+8. Navigate to the link in your URL, and grant the bot access to your server.
 
 ### Run the Bot
 1. Run the following commands in a terminal

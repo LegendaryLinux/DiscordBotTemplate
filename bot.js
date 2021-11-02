@@ -1,7 +1,8 @@
 const { Client, Collection, Intents } = require('discord.js')
 const config = require('./config.json');
 const { generalErrorHandler } = require('./errorHandlers');
-const { verifyModeratorRole, verifyIsAdmin, cachePartial, parseArgs } = require('./lib');
+const { verifyModeratorRole, verifyIsAdmin, cachePartial, parseArgs, registerGlobalSlashCommands,
+    registerGuildSlashCommands } = require('./lib');
 const fs = require('fs');
 
 // Catch all unhandled errors
@@ -87,6 +88,7 @@ client.on('messageCreate', async (msg) => {
     }
 });
 
+// Route various Discord client events to their appropriate handlers
 const messageUpdate = require('./clientEventHandlers/messageUpdate');
 client.on('messageUpdate', async (message) => messageUpdate(client, message));
 
@@ -109,10 +111,21 @@ client.on('guildCreate', async (guild) => guildCreate(client, guild));
 const guildDelete = require('./clientEventHandlers/guildDelete');
 client.on('guildDelete', async (guild) => guildDelete(client, guild));
 
+// Handle slash commands when their events occur
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) { return; }
+    if (!interaction.hasOwnProperty('commandName')) { return; }
+    const command = client.commands.get(interaction.commandName);
+    if (!command) { return; }
+    await command.execute(interaction);
+});
+
 // Use the general error handler to handle unexpected errors
 client.on('error', async(error) => generalErrorHandler(error));
 
 client.once('ready', async() => {
+    await registerGlobalSlashCommands(client);
+    await registerGuildSlashCommands(client);
     console.log(`Connected to Discord. Active in ${client.guilds.cache.size} guilds.`);
 });
 
