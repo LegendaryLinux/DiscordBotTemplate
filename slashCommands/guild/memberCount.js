@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const commandName = 'member-count';
 module.exports = {
   name: commandName,
-  guilds: [ /* Put Guild IDs here */ ],
+  guilds: [], // Array of Guild IDs (strings)
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Get information about this guild!'),
