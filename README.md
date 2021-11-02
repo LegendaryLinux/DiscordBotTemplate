@@ -30,6 +30,7 @@ as a learning resource for those interested in creating their first bot.
 - [git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en/)
 
+### Create a Discord Application
 1. You will need to access the [Discord Developer Portal](https://discord.com/developers/applications) and create an
 application.
 2. Note the `Application ID`.
@@ -39,20 +40,21 @@ application.
 6. Access the [Permissions Calculator](https://discordapi.com/permissions.html) and determine what permissions your
 bot will need, then copy the URL at the bottom of the page.
 7. Navigate to the link in your URL, and grant the bot access to your server.
-8. Run the following commands in a terminal
+
+### Run the Bot
+1. Run the following commands in a terminal
 ```shell
 git clone https://github.com/LegendaryLinux/DiscordBotTemplate.git
 cd DiscordBotTemplate
 npm install
 ```
-
-9. Create a new file called `config.json` and place it in the root directory of the project, then copy the contents of
+2. Create a new file called `config.json` and place it in the root directory of the project, then copy the contents of
 `config.example.json` into it.
-10. Put your Application ID and Token into `config.json` where specified.
-11. Back in your terminal, run
+3. Put your Application ID and Token into `config.json` where specified.
+4. Back in your terminal, run
 ```shell
 npm run dev
 ```
-12. Observe the bot has come online in your Discord server
-13. Type `!hello` to have the bot reply to you.
+5. Observe the bot has come online in your Discord server
+6. Type `!hello` to have the bot reply to you.
 
