@@ -1,0 +1,120 @@
+const { Client, Collection, Intents } = require('discord.js')
+const config = require('./config.json');
+const { generalErrorHandler } = require('./errorHandlers');
+const { verifyModeratorRole, verifyIsAdmin, cachePartial, parseArgs } = require('./lib');
+const fs = require('fs');
+
+// Catch all unhandled errors
+process.on('uncaughtException', (err) => generalErrorHandler(err));
+
+const client = new Client({
+    partials: [ 'GUILD_MEMBER', 'MESSAGE', 'REACTION' ],
+    intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.DIRECT_MESSAGES ],
+});
+client.devMode = process.argv[2] && process.argv[2] === 'dev';
+client.commands = new Collection();
+client.commandCategories = [];
+
+// Load command category files
+fs.readdirSync('./commandCategories').filter((file) => file.endsWith('.js')).forEach((categoryFile) => {
+    const commandCategory = require(`./commandCategories/${categoryFile}`);
+    client.commandCategories.push(commandCategory);
+    commandCategory.commands.forEach((command) => {
+        client.commands.set(command.name, command);
+    });
+});
+
+const messageCreate = require('./clientEventHandlers/messageCreate');
+client.on('messageCreate', async (msg) => {
+    // Fetch message if partial
+    const message = await cachePartial(msg);
+    if (message.member) { message.member = await cachePartial(message.member); }
+    if (message.author) { message.author = await cachePartial(message.author); }
+
+    // Ignore all bot messages
+    if (message.author.bot) { return; }
+
+    // If the message does not begin with the command prefix, run it through the message listener
+    if (!message.content.startsWith(config.commandPrefix)) {
+        return messageCreate(client, message);
+    }
+
+    // If the message is a command, parse the command and arguments
+    const args = parseArgs(message.content.slice(config.commandPrefix.length).trim());
+    const commandName = args.shift().toLowerCase();
+
+    try{
+        // Get the command object
+        const command = client.commands.get(commandName) ||
+            client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+        // If the command does not exist, alert the user
+        if (!command) {
+            return message.channel.send(
+              `I don't know that command. Use \`${config.commandPrefix}help\` for more info.`
+            );
+        }
+
+        // If the command does not require a guild, just run it
+        if (!command.guildOnly) { return command.execute(message, args); }
+
+        // If this message was not sent from a guild, deny it
+        if (!message.guild) { return message.reply('That command may only be used in a server.'); }
+
+        // If the command is available only to administrators, run it only if the user is an administrator
+        if (command.adminOnly) {
+            if (verifyIsAdmin(message.member)) {
+                return command.execute(message, args);
+            } else {
+                // If the user is not an admin, warn them and bail
+                return message.author.send("You do not have permission to use that command.");
+            }
+        }
+
+        // If the command is available to everyone, just run it
+        if (!command.minimumRole) { return command.execute(message, args); }
+
+        // Otherwise, the user must have permission to access this command
+        if (await verifyModeratorRole(message.member)) {
+            return command.execute(message, args);
+        }
+
+        return message.reply('You are not authorized to use that command.');
+    }catch (error) {
+        // Log the error, report a problem
+        console.error(error);
+        message.reply("Something broke. Maybe check your command?")
+    }
+});
+
+const messageUpdate = require('./clientEventHandlers/messageUpdate');
+client.on('messageUpdate', async (message) => messageUpdate(client, message));
+
+const messageDelete = require('./clientEventHandlers/messageDelete');
+client.on('messageDelete', async (message) => messageDelete(client, message));
+
+const messageReactionAdd = require('./clientEventHandlers/messageReactionAdd');
+client.on('messageReactionAdd', async (messageReaction, user) => messageReactionAdd(client, messageReaction, user));
+
+const messageReactionRemove = require('./clientEventHandlers/messageReactionRemove');
+client.on('messageReactionRemove', async (messageReaction, user) =>
+  messageReactionRemove(client, messageReaction, user));
+
+const voiceStateUpdate = require('./clientEventHandlers/voiceStateUpdate');
+client.on('voiceStateUpdate', async (oldState, newState) => voiceStateUpdate(client, oldState, newState));
+
+const guildCreate = require('./clientEventHandlers/guildCreate');
+client.on('guildCreate', async (guild) => guildCreate(client, guild));
+
+const guildDelete = require('./clientEventHandlers/guildDelete');
+client.on('guildDelete', async (guild) => guildDelete(client, guild));
+
+// Use the general error handler to handle unexpected errors
+client.on('error', async(error) => generalErrorHandler(error));
+
+client.once('ready', async() => {
+    await verifyGuildSetups(client);
+    console.log(`Connected to Discord. Active in ${client.guilds.cache.size} guilds.`);
+});
+
+return client.login(config.token);
