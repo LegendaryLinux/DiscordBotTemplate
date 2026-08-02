@@ -1,4 +1,9 @@
-const { MessageFlags } = require('discord.js');
+const {
+  LabelBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+} = require('discord.js');
 
 module.exports = async (client, interaction) => {
   // Ignore irrelevant events
@@ -8,9 +13,21 @@ module.exports = async (client, interaction) => {
   if (interaction?.customId !== 'example-button') { return; }
 
   // Handle the button click
+  const modal = new ModalBuilder()
+    .setCustomId('example-modal')
+    .setTitle('Example Modal')
+    .addLabelComponents(
+      new LabelBuilder()
+        .setLabel('Example field')
+        .setDescription('Enter a value to submit.')
+        .setTextInputComponent(
+          new TextInputBuilder()
+            .setCustomId('exampleFieldName')
+            .setStyle(TextInputStyle.Short)
+            .setPlaceholder('Enter an example value')
+            .setRequired(true)
+        )
+    );
 
-  return interaction.reply({
-    content: 'You have clicked the example button!',
-    flags: MessageFlags.Ephemeral,
-  });
+  return interaction.showModal(modal);
 };
