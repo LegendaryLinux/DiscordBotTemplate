@@ -1,5 +1,4 @@
 const { Discord, Role } = require('discord.js');
-const { generalErrorHandler } = require('./errorHandlers');
 const {REST} = require("@discordjs/rest");
 const {Routes} = require("discord-api-types/v9");
 const fs = require("fs");
@@ -11,33 +10,6 @@ module.exports = {
    * @param guildMember
    */
   verifyIsAdmin: (guildMember) => guildMember.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR),
-
-  /**
-   * Returns the
-   * @param guild
-   * @returns {Promise<Role>}
-   */
-  getModeratorRole: (guild) => new Promise(async (resolve) => {
-    // Find this guild's moderator role
-    let modRole = null;
-    await guild.roles.cache.each((role) => {
-      if (modRole !== null) { return; }
-      if (role.name === config.moderatorRole) {
-        modRole = role;
-      }
-    });
-    resolve(modRole);
-  }),
-
-  /**
-   * Determine if a user has moderator permissions in a guild
-   * @param guildMember
-   * @returns {Promise<unknown>}
-   */
-  verifyModeratorRole: (guildMember) => new Promise(async (resolve) => {
-    if (module.exports.verifyIsAdmin(guildMember)) { resolve(true); }
-    resolve(await module.exports.getModeratorRole(guildMember.guild).position <= guildMember.roles.highest.position);
-  }),
 
   /**
    * Get an emoji object usable with Discord. Null if the Emoji is not usable in the provided guild.

@@ -14,5 +14,5 @@ module.exports = async (client, message) => {
     return;
   }
 
-  // Handle messages in a guild
+  // Do something in response to the message being edited
 };

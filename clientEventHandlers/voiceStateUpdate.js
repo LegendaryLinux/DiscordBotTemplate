@@ -1,4 +1,3 @@
-const { generalErrorHandler } = require('../errorHandlers');
 const { cachePartial } = require('../lib');
 
 module.exports = async (client, oldState, newState) => {
@@ -7,14 +6,22 @@ module.exports = async (client, oldState, newState) => {
   newState.member = await cachePartial(newState.member);
 
   // If the user changed their voice state but remained in the same channel, do nothing (mute, deafen, etc.)
-  if (oldState.channel && newState.channel && oldState.channel.id === newState.channel.id) { return; }
+  if (oldState.channel && newState.channel && oldState.channel.id === newState.channel.id) {
+    return;
+  }
 
   // User entered a voice channel
-  if (newState.channel) {}
+  if (newState.channel) {
+    // Do something
+  }
 
   // User left a voice channel
-  if (oldState.channel) {}
+  if (oldState.channel) {
+    // Do something
+  }
 
   // User left a voice channel and did not enter a new one
-  if (newState.channel && !oldState.channel) {}
+  if (newState.channel && !oldState.channel) {
+    // Do something
+  }
 };

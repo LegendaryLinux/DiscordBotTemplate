@@ -5,5 +5,5 @@
  * @returns {Promise<void>}
  */
 module.exports = async (client, guild) => {
-  // Perform any cleanup actions
+  console.log(`Bot has been removed from guild ${guild.name} with id ${guild.id}`);
 };

@@ -13,6 +13,8 @@ module.exports = async (client, messageReaction, user) => {
 
   const emoji = parseEmoji(guild, messageReaction.emoji.toString());
   if (!emoji) {
-    // Emoji is not usable by this guild
+    // Emoji is from another guild, so the bot cannot use it
   }
+
+  // Do something in response to the emoji being added
 };
