@@ -1,10 +1,6 @@
-const { parseEmoji, cachePartial } = require('../lib');
+const { parseEmoji } = require('../../lib');
 
 module.exports = async (client, messageReaction, user) => {
-  // Fetch partials if necessary
-  messageReaction = await cachePartial(messageReaction);
-  messageReaction.message = await cachePartial(messageReaction.message);
-
   // Do nothing if the user is a bot or the message is a DM
   if (user.bot || !messageReaction.message.guild) { return; }
 

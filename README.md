@@ -9,6 +9,8 @@ as a learning resource for those interested in creating their first bot.
 ## Pre-Packaged Functionality
 This template bot comes with a few handy features:
 - Automatic registration of slash commands
+- Directory-based client event and interaction listeners
+- Routines which run when the client is ready and once per hour thereafter
 
 ## Repository Contents
 
@@ -23,13 +25,13 @@ This template bot comes with a few handy features:
 
 ### Directories
 - `assets` - Used to contain additional config files, images, and other assets your bot may need to reference
-- `clientEvents` - Contains files which export functions used to handle various events emitted by Discord
-- `cron` - Contains files which should be run regularly as cron jobs. These are not loaded by the bot directly
+- `clientEvents` - Contains event-named directories. Every JavaScript file in a directory receives that client event
+- `routines` - Contains functions which receive the Discord client when it becomes ready and once per hour thereafter
 - `scripts` - Contains files which should be run standalone to perform bot maintenance
 - `slashCommands` - Contains files which define slash commands
 - `interactionListeners` - Contains directories which specify listeners for interaction types:
-  - `buttons` - Contains button listeners
-  - `modals` - Contains modal submit listeners
+  - `buttons` - Every JavaScript file receives button interactions
+  - `modals` - Every JavaScript file receives modal-submit interactions
 
 ## Create and Run the Bot
 
