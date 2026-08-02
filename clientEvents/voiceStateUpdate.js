@@ -19,9 +19,4 @@ module.exports = async (client, oldState, newState) => {
   if (oldState.channel) {
     // Do something
   }
-
-  // User left a voice channel and did not enter a new one
-  if (newState.channel && !oldState.channel) {
-    // Do something
-  }
 };

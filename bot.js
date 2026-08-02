@@ -13,7 +13,6 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
-    GatewayIntentBits.DirectMessages,
 
     // Privileged intent, which must be enabled in the Discord Developer Portal page for your bot
     // GatewayIntentBits.MessageContent,
@@ -36,7 +35,7 @@ client.on('messageCreate', async (msg) => {
 
 // Route various Discord client events to their appropriate handlers
 const messageUpdate = require('./clientEvents/messageUpdate');
-client.on('messageUpdate', async (message) => messageUpdate(client, message));
+client.on('messageUpdate', async (oldMessage, newMessage) => messageUpdate(client, oldMessage, newMessage));
 
 const messageDelete = require('./clientEvents/messageDelete');
 client.on('messageDelete', async (message) => messageDelete(client, message));

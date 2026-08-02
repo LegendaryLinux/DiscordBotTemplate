@@ -1,4 +1,4 @@
-const { PermissionFlags } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
 const {REST} = require("@discordjs/rest");
 const {Routes} = require("discord-api-types/v9");
 const fs = require("fs");
@@ -9,7 +9,7 @@ module.exports = {
    * Determine if a user has administrator permissions in a guild
    * @param guildMember
    */
-  verifyIsAdmin: (guildMember) => guildMember.permissions.has(PermissionFlags.Administrator),
+  verifyIsAdmin: (guildMember) => guildMember.permissions.has(PermissionFlagsBits.Administrator),
 
   /**
    * Get an emoji object usable with Discord. Null if the Emoji is not usable in the provided guild.

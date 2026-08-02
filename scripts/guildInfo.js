@@ -9,7 +9,6 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
-    GatewayIntentBits.DirectMessages,
   ],
 });
 client.login(config.token).then(async () => {

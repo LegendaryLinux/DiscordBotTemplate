@@ -1,8 +1,6 @@
 const { cachePartial } = require("../lib");
 
 module.exports = async (client, message) => {
-  // Fetch message if partial
-  message = await cachePartial(message);
   if (message.member) { message.member = await cachePartial(message.member); }
   if (message.author) { message.author = await cachePartial(message.author); }
 

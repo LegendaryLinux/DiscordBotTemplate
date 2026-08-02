@@ -1,10 +1,14 @@
-const { Discord, Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const config = require('../config.json');
 
 // Create the Discord client
 const client = new Client({
-  intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.DIRECT_MESSAGES ],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+  ],
 });
 
 client.login(config.token).then(async () => {
@@ -12,9 +16,9 @@ client.login(config.token).then(async () => {
     // Perform some regularly occurring operation
 
     // Cleanly close the connection to Discord
-    client.destroy();
+    return client.destroy();
   }catch(Error) {
     console.error(Error);
-    client.destroy();
+    return client.destroy();
   }
 });

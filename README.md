@@ -23,12 +23,13 @@ This template bot comes with a few handy features:
 
 ### Directories
 - `assets` - Used to contain additional config files, images, and other assets your bot may need to reference
-- `clientEventHandlers` - Contains files which export functions used to handle various events emitted by Discord
+- `clientEvents` - Contains files which export functions used to handle various events emitted by Discord
 - `cron` - Contains files which should be run regularly as cron jobs. These are not loaded by the bot directly
 - `scripts` - Contains files which should be run standalone to perform bot maintenance
-- `slashCommands` - Contains two directories:
-  - `global` - Defines slash commands available to all guilds
-  - `guild` - Defines slash commands specific to a subset of guilds your bot has joined
+- `slashCommands` - Contains files which define slash commands
+- `interactionListeners` - Contains directories which specify listeners for interaction types:
+  - `buttons` - Contains button listeners
+  - `modals` - Contains modal submit listeners
 
 ## Create and Run the Bot
 
@@ -37,7 +38,8 @@ This template bot comes with a few handy features:
 - [Node.js](https://nodejs.org/en/)
 
 ### Create a Discord Application
-1. You will need to access the [Discord Developer Portal](https://discord.com/developers/applications) and to create an application.
+1. You will need to access the [Discord Developer Portal](https://discord.com/developers/applications) and to create
+an application.
 2. Click the "Bot" button on the sidebar.
 3. Click the "Add Bot" button and confirm the dialog.
 4. Note your bot's `Token`.
