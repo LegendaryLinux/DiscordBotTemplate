@@ -1,11 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageFlags } = require('discord.js');
 
-const commandName = 'roll';
 module.exports = {
-  name: commandName,
   data: new SlashCommandBuilder()
-    .setName(commandName)
+    .setName('roll')
     .setDescription('Roll a dice with a variable number of sides.')
     .addIntegerOption((option) => option
       .setName('sides')

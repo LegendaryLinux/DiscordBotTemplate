@@ -1,10 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const commandName = 'member-count';
 module.exports = {
-  name: commandName,
   data: new SlashCommandBuilder()
-    .setName(commandName)
+    .setName('member-count')
     .setDescription('Get information about this guild!'),
   async execute(interaction) {
     return interaction.reply({

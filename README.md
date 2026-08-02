@@ -24,7 +24,6 @@ This template bot comes with a few handy features:
 ### Directories
 - `assets` - Used to contain additional config files, images, and other assets your bot may need to reference
 - `clientEventHandlers` - Contains files which export functions used to handle various events emitted by Discord
-- `commandCategories` - Contains files which define commands your users may be granted access to
 - `cron` - Contains files which should be run regularly as cron jobs. These are not loaded by the bot directly
 - `scripts` - Contains files which should be run standalone to perform bot maintenance
 - `slashCommands` - Contains two directories:
@@ -38,8 +37,7 @@ This template bot comes with a few handy features:
 - [Node.js](https://nodejs.org/en/)
 
 ### Create a Discord Application
-1. You will need to access the [Discord Developer Portal](https://discord.com/developers/applications) and create an
-application.
+1. You will need to access the [Discord Developer Portal](https://discord.com/developers/applications) and to create an application.
 2. Click the "Bot" button on the sidebar.
 3. Click the "Add Bot" button and confirm the dialog.
 4. Note your bot's `Token`.
@@ -51,10 +49,10 @@ By default, this bot will require the following permissions:
    - Read Messages
    - Send Messages
    - View Channel
-8. Navigate to the link in your URL, and grant the bot access to your server.
+7. Navigate to the link in your URL, and grant the bot access to your server.
 
 ### Run the Bot
-1. Run the following commands in a terminal
+1. Run the following commands in a terminal:
 ```shell
 git clone https://github.com/LegendaryLinux/DiscordBotTemplate.git
 cd DiscordBotTemplate
@@ -68,4 +66,4 @@ npm install
 npm run dev
 ```
 5. Observe the bot has come online in your Discord server.
-6. Type `!hello` to have the bot reply to you.
+6. Issue the `/roll` command to have the bot roll some dice

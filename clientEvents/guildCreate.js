@@ -1,5 +1,3 @@
-const { generalErrorHandler } = require('../errorHandlers');
-
 /**
  * Function run when the bot is added to a guild
  * @param client

@@ -1,5 +1,5 @@
 module.exports = {
-    generalErrorHandler: (error) => {
-        console.error(error);
-    },
+  generalErrorHandler: (error) => {
+    console.error(error);
+  },
 };

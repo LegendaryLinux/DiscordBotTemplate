@@ -1,11 +1,16 @@
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const config = require('../config.json');
 
 console.debug('Logging into Discord...');
 const client = new Client({
-  partials: [ 'GUILD_MEMBER', 'MESSAGE', 'REACTION' ],
-  intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.DIRECT_MESSAGES ],
+  partials: [ Partials.GuildMember, Partials.Message, Partials.Reaction ],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.DirectMessages,
+  ],
 });
 client.login(config.token).then(async () => {
   console.debug('Connected.');
@@ -15,5 +20,5 @@ client.login(config.token).then(async () => {
     console.log(`${guild.name} (${guild.id})`);
     console.log(`Members: ${guild.memberCount}\n`);
   });
-  client.destroy();
+  return client.destroy();
 });
