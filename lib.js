@@ -28,12 +28,19 @@ module.exports = {
     return nodeEmoji.hasEmoji(emoji) ? emoji : null;
   },
 
-  cachePartial: (partial) => new Promise((resolve, reject) => {
-    if (!partial.hasOwnProperty('partial') || !partial.partial) { resolve(partial); }
-    partial.fetch()
-      .then((full) => resolve(full))
-      .catch((error) => reject(error));
-  }),
+  cachePartial: async (structure) => {
+    if (!structure.partial) { return structure; }
+
+    try {
+      return await structure.fetch();
+    } catch (error) {
+      // Unknown message, code 10008
+      if (error.code === 10008) {
+        console.warn(`Unable to fetch partial ${structure.constructor.name}; it may have been deleted.`);
+      }
+      throw error;
+    }
+  },
 
   parseArgs: (command) => {
     // Quotes with which arguments can be wrapped
