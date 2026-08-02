@@ -14,10 +14,10 @@ const client = new Client({
 client.login(config.token).then(async () => {
   console.debug('Connected.');
   console.debug(`This bot has been installed in ${client.guilds.cache.size} guilds.\n`);
-  await client.guilds.cache.each(async (guild) => {
+  for (const guild of client.guilds.cache.values()) {
     await guild.fetch();
     console.log(`${guild.name} (${guild.id})`);
     console.log(`Members: ${guild.memberCount}\n`);
-  });
+  }
   return client.destroy();
 });
